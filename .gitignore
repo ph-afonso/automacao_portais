@@ -1,0 +1,63 @@
+# --- GERAL DO SISTEMA ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- PYTHON (Backend) ---
+# Byte-compiled / otimizados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambientes Virtuais (venv)
+venv/
+env/
+.venv/
+backend/venv/
+
+# Variáveis de Ambiente (Segurança)
+.env
+.env.local
+
+# Banco de Dados Local (Geralmente não comitamos o SQLite local)
+db.sqlite3
+*.sqlite3
+
+# Logs
+*.log
+
+# --- DJANGO ---
+# Mídia (Uploads de logos, etc - não devem ir para o Git)
+media/
+backend/media/
+
+# Static files (arquivos coletados para deploy)
+staticfiles/
+backend/staticfiles/
+
+# --- NODE.JS / QUASAR (Frontend) ---
+# Dependências (Nunca envie isso, é muito pesado)
+node_modules/
+*/node_modules/
+
+# Builds de produção e cache
+dist/
+.quasar/
+.cache/
+
+# Logs de erro do NPM/Yarn
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de ambiente do frontend
+.env.local
+.env.*.local
+
+# Editor config (opcional, mas bom ignorar se for local)
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
