@@ -4,13 +4,20 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     meta: { requiresAuth: true },
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') },
+      { 
+        path: '',
+        component: () => import('pages/IndexPage.vue') 
+      },
       
-      // --- ROTA TRADUZIDA ---
       { 
         path: 'configuracoes/portais',  // Antes era settings/portals
         component: () => import('pages/PortalsPage.vue') 
+      },
+      { 
+        path: 'configuracoes/usuarios', 
+        component: () => import('pages/UsersPage.vue') 
       }
+
     ]
   },
 

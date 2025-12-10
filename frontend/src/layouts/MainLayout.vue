@@ -84,6 +84,19 @@
                 Portais
               </q-item-section>
             </q-item>
+            <q-item 
+              clickable 
+              v-ripple 
+              to="/configuracoes/usuarios"
+              active-class="text-primary bg-blue-1 rounded-borders"
+              class="q-ma-xs"
+            >
+              <q-item-section avatar>
+                <q-icon name="people" /> </q-item-section>
+              <q-item-section>
+                Usuários
+              </q-item-section>
+            </q-item>
           </q-expansion-item>
 
         </q-list>
