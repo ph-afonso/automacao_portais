@@ -89,20 +89,3 @@ class UserLog(models.Model):
 
     def __str__(self):
         return f"[{self.created_at.strftime('%d/%m/%Y %H:%M')}] {self.user} - {self.action}"
-
-# --- SIGNALS (Automação dos Logs) ---
-@receiver(post_save, sender=Portal)
-@receiver(post_save, sender=PortalCredential)
-def log_save(sender, instance, created, **kwargs):
-    # Traduzindo a ação para o Log
-    model_name = instance._meta.verbose_name
-    action_type = "Criou novo registro de" if created else "Atualizou registro de"
-    
-    try:
-        # Cria o log automaticamente
-        UserLog.objects.create(
-            user=None, # Ajustaremos nas Views para pegar o usuário logado real
-            action=f"{action_type} {model_name}: {str(instance)}"
-        )
-    except Exception:
-        pass

@@ -1,11 +1,24 @@
 from django.contrib import admin
-from django.urls import path
-# from rest_framework.authtoken.views import obtain_auth_token # <--- REMOVA OU COMENTE ESTA LINHA
-from core.views import CustomAuthToken # <--- IMPORTE A NOSSA VIEW NOVA
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from rest_framework import routers
+from core.views import CustomAuthToken, UserViewSet, PortalViewSet, PortalCredentialViewSet
+
+# Configura o Roteador Automático (Agora em PT-BR)
+router = routers.DefaultRouter()
+router.register(r'usuarios', UserViewSet)
+router.register(r'portais', PortalViewSet)
+router.register(r'credenciais', PortalCredentialViewSet, basename='credenciais')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/login/', CustomAuthToken.as_view()),
     
-    # path('api/login/', obtain_auth_token), # <--- REMOVA A ANTIGA
-    path('api/login/', CustomAuthToken.as_view(), name='api_token_auth'), # <--- USE A NOVA
+    # As rotas ficarão: /api/portais/, /api/usuarios/, etc.
+    path('api/', include(router.urls)), 
 ]
+
+# Configuração para servir as imagens (Logos) durante o desenvolvimento
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

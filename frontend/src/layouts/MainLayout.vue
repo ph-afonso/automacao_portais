@@ -31,7 +31,7 @@
       <q-scroll-area class="col">
         <q-list padding>
           
-          <q-item clickable v-ripple to="/" active-class="text-primary bg-blue-1 rounded-borders" class="q-ma-xs">
+          <q-item clickable v-ripple to="/" exact active-class="text-primary bg-blue-1 rounded-borders" class="q-ma-xs">
             <q-item-section avatar>
               <q-icon name="dashboard" />
             </q-item-section>
@@ -57,13 +57,34 @@
 
           <q-separator class="q-my-md" />
 
-          <q-item clickable v-ripple active-class="text-primary bg-blue-1 rounded-borders" class="q-ma-xs">
-            <q-item-section avatar>
-              <q-icon name="settings" />
-            </q-item-section>
-            <q-item-section>Configurações</q-item-section>
-            <q-tooltip v-if="miniState" anchor="center right" self="center left" :offset="[10, 10]">Configurações</q-tooltip>
-          </q-item>
+          <q-expansion-item
+            icon="settings"
+            label="Configurações"
+            :content-inset-level="0.5"
+            expand-separator
+            group="settings" 
+            :class="miniState ? 'q-ma-xs' : ''" 
+            :header-class="route.path.includes('/configuracoes') ? 'text-primary' : ''"
+          >
+            <q-tooltip v-if="miniState" anchor="center right" self="center left" :offset="[10, 10]">
+              Configurações
+            </q-tooltip>
+
+            <q-item 
+              clickable 
+              v-ripple 
+              to="/configuracoes/portais"
+              active-class="text-primary bg-blue-1 rounded-borders"
+              class="q-ma-xs"
+            >
+              <q-item-section avatar>
+                <q-icon name="domain" /> 
+              </q-item-section>
+              <q-item-section>
+                Portais
+              </q-item-section>
+            </q-item>
+          </q-expansion-item>
 
         </q-list>
       </q-scroll-area>
@@ -122,13 +143,14 @@
 <script>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useAuthStore } from 'stores/auth'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router' // ADICIONADO useRoute
 import { useQuasar } from 'quasar'
 
 export default {
   setup () {
     const authStore = useAuthStore()
     const router = useRouter()
+    const route = useRoute() // ADICIONADO
     const $q = useQuasar()
 
     const drawer = ref(false)
@@ -144,13 +166,11 @@ export default {
       }
     }
 
-    // Formata o nome para exibição (Ex: Capitaliza)
     const formatName = (name) => {
-      if (!name) return 'Usuário';
+      if (!name) return ''; // Ajustei para não retornar "Usuário" fixo se faltar um dos nomes
       return name.charAt(0).toUpperCase() + name.slice(1);
     }
 
-    // Calculadora de Tempo de Sessão
     const updateTimer = () => {
       if (!authStore.loginTime) return;
       
@@ -174,13 +194,13 @@ export default {
       }).onOk(() => {
         authStore.logout()
         router.push('/login')
-        $q.notify({ type: 'positive',position: 'top', message: 'Sessão encerrada.' })
+        $q.notify({ type: 'positive', position: 'top', message: 'Sessão encerrada.' })
       })
     }
 
     onMounted(() => {
-      updateTimer(); // Atualiza na hora
-      timerInterval = setInterval(updateTimer, 1000); // Roda a cada segundo
+      updateTimer(); 
+      timerInterval = setInterval(updateTimer, 1000); 
     })
 
     onUnmounted(() => {
@@ -194,14 +214,14 @@ export default {
       authStore,
       handleLogout,
       sessionDuration,
-      formatName
+      formatName,
+      route // ADICIONADO retorno para usar no template
     }
   }
 }
 </script>
 
 <style scoped>
-/* Efeito suave para quando o texto aparece/some ao abrir menu */
 .fade-in {
   animation: fadeIn 0.3s ease-in;
 }
