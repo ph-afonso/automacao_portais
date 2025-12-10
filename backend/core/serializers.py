@@ -5,14 +5,36 @@ from .models import User, Portal, PortalCredential, UserLog
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'is_active', 'is_staff']
-        # Protege a senha para não ser lida, mas permite ser escrita (criada)
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password', 'is_active', 'is_staff']
+        # Isso garante que a senha só pode ser escrita, nunca lida (segurança)
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        # Garante que a senha seja criptografada ao criar usuário
-        user = User.objects.create_user(**validated_data)
-        return user
+        # Remove a senha dos dados validados para tratar separadamente
+        password = validated_data.pop('password', None)
+        
+        # Cria a instância do usuário com o restante dos dados
+        instance = self.Meta.model(**validated_data)
+        
+        # Se a senha foi enviada, usa o método set_password para criptografar
+        if password is not None:
+            instance.set_password(password)
+        
+        instance.save()
+        return instance
+
+    def update(self, instance, validated_data):
+        # Mesma lógica para o Update
+        password = validated_data.pop('password', None)
+        
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        if password is not None:
+            instance.set_password(password)
+        
+        instance.save()
+        return instance
 
 # 2. Serializer de Portal
 class PortalSerializer(serializers.ModelSerializer):
