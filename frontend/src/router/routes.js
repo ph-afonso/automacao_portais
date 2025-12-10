@@ -16,6 +16,10 @@ const routes = [
       { 
         path: 'configuracoes/usuarios', 
         component: () => import('pages/UsersPage.vue') 
+      },
+      { 
+        path: 'configuracoes/credenciais', 
+        component: () => import('pages/CredentialsPage.vue') 
       }
 
     ]

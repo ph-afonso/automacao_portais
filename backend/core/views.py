@@ -83,3 +83,4 @@ class PortalCredentialViewSet(AuditLogMixin, viewsets.ModelViewSet):
         # para não conflitar com o AuditLogMixin padrão
         instance = serializer.save(user=self.request.user)
         self._log_action(self.request.user, "Criou", instance)
+        

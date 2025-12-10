@@ -87,6 +87,20 @@
             <q-item 
               clickable 
               v-ripple 
+              to="/configuracoes/credenciais"
+              active-class="text-primary bg-blue-1 rounded-borders"
+              class="q-ma-xs"
+            >
+              <q-item-section avatar>
+                <q-icon name="vpn_key" />
+              </q-item-section>
+              <q-item-section>
+                Credenciais
+              </q-item-section>
+            </q-item>
+            <q-item 
+              clickable 
+              v-ripple 
               to="/configuracoes/usuarios"
               active-class="text-primary bg-blue-1 rounded-borders"
               class="q-ma-xs"

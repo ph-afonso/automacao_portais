@@ -27,3 +27,5 @@ class PortalCredentialSerializer(serializers.ModelSerializer):
     class Meta:
         model = PortalCredential
         fields = ['id', 'user', 'portal', 'portal_name', 'portal_username', 'portal_password', 'updated_at']
+
+        read_only_fields = ['user']
